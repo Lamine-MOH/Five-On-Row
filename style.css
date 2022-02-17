@@ -1,0 +1,103 @@
+:root {
+    --team-1-color: #aaa;
+    --team-2-color: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    background: darkcyan;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.five-on-row {
+    width: 100vw;
+    height: 100vh;
+    background: darkcyan;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.game-board {
+    width: 500px;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: #812200;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    overflow: hidden;
+}
+
+.game-board .place {
+    width: calc(100% / var(--column));
+    aspect-ratio: 1;
+    background: radial-gradient(#a32c00 0% 60%, #000);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.game-board .place::after {
+    content: "";
+    display: block;
+
+    width: 50%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+
+    cursor: pointer;
+}
+.game-board .place.white::after {
+    background: var(--team-1-color);
+
+    box-shadow: 3px 3px 3px #0005;
+    
+}
+.game-board .place.black::after {
+    background: var(--team-2-color);
+
+    box-shadow: 3px 3px 3px #0005;
+}
+
+
+/*  */
+
+.current-turn {
+    margin-top: 20px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+    
+}
+.current-turn::after {
+    content: "White to play";
+    color: #fff;
+}
+.current-turn.black::after {
+    content: "Black to play";
+    color: #000;
+}
+.current-turn.game-over::after {
+    content: "Game Over, Black Win";
+    color: #000;
+}
+.current-turn.game-over.black::after {
+    content: "Game Over, White Win";
+    color: #fff;
+}
+
+/*  */
