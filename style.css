@@ -101,5 +101,9 @@ body {
     content: "Game Over, White Win";
     color: #fff;
 }
+.current-turn.draw::after {
+    content: "Draw";
+    color: #3f3;
+}
 
 /*  */
