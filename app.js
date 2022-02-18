@@ -10,24 +10,41 @@ const currentTurnContent = document.querySelector(".current-turn");
 let boardPlaces;
 let currentTurn = "white";
 
-function reset_board(boardWidth) {
-    gameBoard.innerHTML = "";
-    gameBoard.setAttribute("style", `--column: ${boardWidth}`);
-    boardInfo = [];
+function reset_board(boardWidth, way = "build") {
+    if (way == "build") {
+        gameBoard.innerHTML = "";
+        gameBoard.setAttribute("style", `--column: ${boardWidth}`);
+        boardInfo = [];
 
-    for (let i = 0; i < boardWidth; i++) {
-        let row = [];
-        for (let j = 0; j < boardWidth; j++) {
-            gameBoard.innerHTML += `<div class="place"></div>`;
-            row.push("empty");
+        for (let i = 0; i < boardWidth; i++) {
+            let row = [];
+            for (let j = 0; j < boardWidth; j++) {
+                gameBoard.innerHTML += `<div class="place"></div>`;
+                row.push("empty");
+            }
+            boardInfo.push(row);
         }
-        boardInfo.push(row);
+
+        boardPlaces = document.querySelectorAll(".game-board .place");
+        boardPlaces.forEach((obj, index) => {
+            obj.setAttribute("onclick", `add_stone(${index})`);
+        });
+    } else if (way == "reset") {
+        for (let i = 0; i < boardWidth; i++) {
+            for (let j = 0; j < boardWidth; j++) {
+                boardInfo[i][j] = "empty";
+
+                boardPlaces[i * boardWidth + j].classList.remove("white");
+                boardPlaces[i * boardWidth + j].classList.remove("black");
+            }
+        }
     }
 
-    boardPlaces = document.querySelectorAll(".game-board .place");
-    boardPlaces.forEach((obj, index) => {
-        obj.setAttribute("onclick", `add_stone(${index})`);
-    });
+    currentTurn = "white";
+    restTurns = boardWidth * boardWidth;
+    recommendedPlaces = [];
+    currentTurnContent.classList.remove("game-over");
+    currentTurnContent.classList.remove("black");
 }
 reset_board(boardWidth);
 
@@ -80,7 +97,7 @@ function game_over(x, y) {
 
     i = x + 1;
     j = y + 1;
-    while (i >= 0 && j >= 0) {
+    while (i < boardWidth - 1 && j < boardWidth - 1) {
         if (boardInfo[i][j] != boardInfo[x][y]) break;
 
         curvedLeftValue += 10;
@@ -92,7 +109,7 @@ function game_over(x, y) {
     // curved right //
     i = x - 1;
     j = y + 1;
-    while (i >= 0 && j >= 0) {
+    while (i >= 0 && j < boardWidth - 1) {
         if (boardInfo[i][j] != boardInfo[x][y]) break;
 
         curvedRightValue += 10;
@@ -103,7 +120,7 @@ function game_over(x, y) {
 
     i = x + 1;
     j = y - 1;
-    while (i >= 0 && j >= 0) {
+    while (i < boardWidth - 1 && j >= 0) {
         if (boardInfo[i][j] != boardInfo[x][y]) break;
 
         curvedRightValue += 10;
@@ -142,7 +159,7 @@ function calc_score(boardInfo) {
 }
 
 //  //
-let bootTeam = "black";
+let bootTeam = "none";
 function add_stone(index) {
     if (restTurns < 0) {
         return;
@@ -150,11 +167,6 @@ function add_stone(index) {
 
     if (restTurns == 0) {
         currentTurnContent.classList.add("draw");
-
-        // let score = calc_score(boardInfo);
-
-        // if(score.white>score.black)
-        // currentTurnContent.classList.toggle("game-over");
     }
 
     let x = Math.floor(index / boardWidth);
