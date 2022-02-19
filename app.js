@@ -43,12 +43,52 @@ function reset_board(boardWidth, way = "build") {
     currentTurn = "white";
     restTurns = boardWidth * boardWidth;
     recommendedPlaces = [];
+
     currentTurnContent.classList.remove("game-over");
     currentTurnContent.classList.remove("black");
+    currentTurnContent.classList.remove("boot");
+    currentTurnContent.classList.remove("player");
+    currentTurnContent.classList.remove("player-1");
+    currentTurnContent.classList.remove("player-2");
+    currentTurnContent.classList.remove("draw");
+
+    boardPlaces.forEach((obj) => {
+        obj.classList.remove("game-over");
+    });
 }
 reset_board(boardWidth);
 
 //  //
+
+function game_over_animation(start, end, mode) {
+    if (mode == "horizontal") {
+        for (let i = start.x; i <= end.x; i++) {
+            boardPlaces[i * boardWidth + start.y].classList.add("game-over");
+        }
+    } else if (mode == "vertical") {
+        for (let j = start.y; j <= end.y; j++) {
+            boardPlaces[start.x * boardWidth + j].classList.add("game-over");
+        }
+    } else if (mode == "curvedLeft") {
+        let i = start.x;
+        let j = start.y;
+        while (i <= end.x && j <= end.y) {
+            boardPlaces[i * boardWidth + j].classList.add("game-over");
+
+            i++;
+            j++;
+        }
+    } else if (mode == "curvedRight") {
+        let i = start.x;
+        let j = start.y;
+        while (i <= end.x && j >= end.y) {
+            boardPlaces[i * boardWidth + j].classList.add("game-over");
+
+            i++;
+            j--;
+        }
+    }
+}
 
 function game_over(x, y) {
     let horizontalValue = 10;
@@ -56,26 +96,55 @@ function game_over(x, y) {
     let curvedLeftValue = 10;
     let curvedRightValue = 10;
 
+    let top = -1;
+    let bottom = -1;
+    let left = -1;
+    let right = -1;
+    let topLeft = -1;
+    let topRight = -1;
+    let bottomLeft = -1;
+    let bottomRight = -1;
+
     // horizontal //
     for (let i = x - 1; i >= 0; i--) {
-        if (boardInfo[i][y] != boardInfo[x][y]) break;
+        top = { x: i, y };
+
+        if (boardInfo[i][y] != boardInfo[x][y]) {
+            top = { x: i + 1, y };
+            break;
+        }
 
         horizontalValue += 10;
     }
     for (let i = x + 1; i < boardWidth; i++) {
-        if (boardInfo[i][y] != boardInfo[x][y]) break;
+        bottom = { x: i, y };
+
+        if (boardInfo[i][y] != boardInfo[x][y]) {
+            bottom = { x: i - 1, y };
+            break;
+        }
 
         horizontalValue += 10;
     }
 
     // vertical //
     for (let i = y - 1; i >= 0; i--) {
-        if (boardInfo[x][i] != boardInfo[x][y]) break;
+        left = { x, y: i };
+
+        if (boardInfo[x][i] != boardInfo[x][y]) {
+            left = { x, y: i };
+            break;
+        }
 
         verticalValue += 10;
     }
     for (let i = y + 1; i < boardWidth; i++) {
-        if (boardInfo[x][i] != boardInfo[x][y]) break;
+        right = { x, y: i };
+
+        if (boardInfo[x][i] != boardInfo[x][y]) {
+            right = { x, y: i - 1 };
+            break;
+        }
 
         verticalValue += 10;
     }
@@ -87,7 +156,12 @@ function game_over(x, y) {
     i = x - 1;
     j = y - 1;
     while (i >= 0 && j >= 0) {
-        if (boardInfo[i][j] != boardInfo[x][y]) break;
+        topLeft = { x: i, y: j };
+
+        if (boardInfo[i][j] != boardInfo[x][y]) {
+            topLeft = { x: i + 1, y: j - 1 };
+            break;
+        }
 
         curvedLeftValue += 10;
 
@@ -98,7 +172,12 @@ function game_over(x, y) {
     i = x + 1;
     j = y + 1;
     while (i < boardWidth - 1 && j < boardWidth - 1) {
-        if (boardInfo[i][j] != boardInfo[x][y]) break;
+        bottomRight = { x: i, y: j };
+
+        if (boardInfo[i][j] != boardInfo[x][y]) {
+            bottomRight = { x: i - 1, y: j - 1 };
+            break;
+        }
 
         curvedLeftValue += 10;
 
@@ -110,7 +189,12 @@ function game_over(x, y) {
     i = x - 1;
     j = y + 1;
     while (i >= 0 && j < boardWidth - 1) {
-        if (boardInfo[i][j] != boardInfo[x][y]) break;
+        topRight = { x: i, y: j };
+
+        if (boardInfo[i][j] != boardInfo[x][y]) {
+            topRight = { x: i + 1, y: j - 1 };
+            break;
+        }
 
         curvedRightValue += 10;
 
@@ -121,7 +205,12 @@ function game_over(x, y) {
     i = x + 1;
     j = y - 1;
     while (i < boardWidth - 1 && j >= 0) {
-        if (boardInfo[i][j] != boardInfo[x][y]) break;
+        bottomLeft = { x: i, y: j };
+
+        if (boardInfo[i][j] != boardInfo[x][y]) {
+            bottomLeft = { x: i - 1, y: j + 1 };
+            break;
+        }
 
         curvedRightValue += 10;
 
@@ -134,9 +223,19 @@ function game_over(x, y) {
         verticalValue >= 50 ||
         curvedLeftValue >= 50 ||
         curvedRightValue >= 50
-    )
+    ) {
+        if (horizontalValue >= 50) {
+            game_over_animation(top, bottom, "horizontal");
+        } else if (verticalValue >= 50) {
+            game_over_animation(left, right, "vertical");
+        } else if (curvedLeftValue >= 50) {
+            game_over_animation(topLeft, bottomRight, "curvedLeft");
+        } else if (curvedRightValue >= 50) {
+            game_over_animation(topRight, bottomLeft, "curvedRight");
+        }
+
         return true;
-    else return false;
+    } else return false;
 }
 
 //  //
@@ -184,7 +283,21 @@ function add_stone(index) {
     // game over //
     if (game_over(x, y)) {
         restTurns = -5;
+
         currentTurnContent.classList.add("game-over");
+        if (bootTeam == "none") {
+            if (currentTurn == bootTeam) {
+                currentTurnContent.classList.add("boot");
+            } else {
+                currentTurnContent.classList.add("player");
+            }
+        } else {
+            if (currentTurn == "white") {
+                currentTurnContent.classList.add("player-1");
+            } else {
+                currentTurnContent.classList.add("player-2");
+            }
+        }
     }
     //  //
 
