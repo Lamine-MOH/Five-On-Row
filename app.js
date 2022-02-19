@@ -285,14 +285,14 @@ function add_stone(index) {
         restTurns = -5;
 
         currentTurnContent.classList.add("game-over");
-        if (bootTeam == "none") {
-            if (currentTurn == bootTeam) {
+        if (bootTeam != "none") {
+            if (currentTurn != bootTeam) {
                 currentTurnContent.classList.add("boot");
             } else {
                 currentTurnContent.classList.add("player");
             }
         } else {
-            if (currentTurn == "white") {
+            if (currentTurn == "black") {
                 currentTurnContent.classList.add("player-1");
             } else {
                 currentTurnContent.classList.add("player-2");
