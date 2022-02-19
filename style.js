@@ -24,14 +24,30 @@ const vsBootBtn = document.querySelector(".five-on-row .left-mene .vs-boot");
 
 vsPlayerBtn.addEventListener("click", () => {
     bootTeam = "none";
-    reset_board(boardWidth, "reset");
+
+    if (boardSizeValue.innerHTML != boardWidth) {
+        boardWidth = boardSizeValue.innerHTML * 1;
+
+        reset_board(boardWidth, "build");
+    } else {
+        reset_board(boardWidth, "reset");
+    }
+    winValue = winNumberValue.innerHTML * 1;
 
     leftMene.classList.remove("opened");
 });
 
 vsBootBtn.addEventListener("click", () => {
     bootTeam = "black";
-    reset_board(boardWidth, "reset");
+
+    if (boardSizeValue.innerHTML != boardWidth) {
+        boardWidth = boardSizeValue.innerHTML * 1;
+
+        reset_board(boardWidth, "build");
+    } else {
+        reset_board(boardWidth, "reset");
+    }
+    winValue = winNumberValue.innerHTML * 1;
 
     leftMene.classList.remove("opened");
 });
@@ -114,4 +130,88 @@ stoneColors.forEach((obj, index) => {
             colors.stone[index][1]
         );
     });
+});
+
+// ------------------change board size------------------ //
+const boardSizeValue = document.querySelector(
+    ".five-on-row .left-mene .board-width .value"
+);
+const boardSizeInc = document.querySelector(
+    ".five-on-row .left-mene .board-width .left"
+);
+const boardSizeDec = document.querySelector(
+    ".five-on-row .left-mene .board-width .right"
+);
+
+boardSizeInc.addEventListener("click", () => {
+    let value = boardSizeValue.innerHTML;
+
+    if (value <= 4) return;
+
+    boardSizeValue.classList.remove("update");
+
+    setTimeout(() => {
+        boardSizeValue.classList.add("update");
+
+        setTimeout(() => {
+            boardSizeValue.innerHTML = value * 1 - 4;
+        }, 250);
+    }, 10);
+});
+boardSizeDec.addEventListener("click", () => {
+    let value = boardSizeValue.innerHTML;
+
+    if (value >= 64) return;
+
+    boardSizeValue.classList.remove("update");
+
+    setTimeout(() => {
+        boardSizeValue.classList.add("update");
+
+        setTimeout(() => {
+            boardSizeValue.innerHTML = value * 1 + 4;
+        }, 250);
+    }, 10);
+});
+
+// ------------------change Win Value------------------ //
+const winNumberValue = document.querySelector(
+    ".five-on-row .left-mene .win-value .value"
+);
+const winNumberInc = document.querySelector(
+    ".five-on-row .left-mene .win-value .left"
+);
+const winNumberDec = document.querySelector(
+    ".five-on-row .left-mene .win-value .right"
+);
+
+winNumberInc.addEventListener("click", () => {
+    let value = winNumberValue.innerHTML;
+
+    if (value <= 4) return;
+
+    winNumberValue.classList.remove("update");
+
+    setTimeout(() => {
+        winNumberValue.classList.add("update");
+
+        setTimeout(() => {
+            winNumberValue.innerHTML = value * 1 - 1;
+        }, 250);
+    }, 10);
+});
+winNumberDec.addEventListener("click", () => {
+    let value = winNumberValue.innerHTML;
+
+    if (value >= 64) return;
+
+    winNumberValue.classList.remove("update");
+
+    setTimeout(() => {
+        winNumberValue.classList.add("update");
+
+        setTimeout(() => {
+            winNumberValue.innerHTML = value * 1 + 1;
+        }, 250);
+    }, 10);
 });

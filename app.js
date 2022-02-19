@@ -90,20 +90,21 @@ function game_over_animation(start, end, mode) {
     }
 }
 
+let winValue = 5;
 function game_over(x, y) {
     let horizontalValue = 10;
     let verticalValue = 10;
     let curvedLeftValue = 10;
     let curvedRightValue = 10;
 
-    let top = -1;
-    let bottom = -1;
-    let left = -1;
-    let right = -1;
-    let topLeft = -1;
-    let topRight = -1;
-    let bottomLeft = -1;
-    let bottomRight = -1;
+    let top = { x, y };
+    let bottom = { x, y };
+    let left = { x, y };
+    let right = { x, y };
+    let topLeft = { x, y };
+    let topRight = { x, y };
+    let bottomLeft = { x, y };
+    let bottomRight = { x, y };
 
     // horizontal //
     for (let i = x - 1; i >= 0; i--) {
@@ -219,42 +220,23 @@ function game_over(x, y) {
     }
 
     if (
-        horizontalValue >= 50 ||
-        verticalValue >= 50 ||
-        curvedLeftValue >= 50 ||
-        curvedRightValue >= 50
+        horizontalValue >= winValue * 10 ||
+        verticalValue >= winValue * 10 ||
+        curvedLeftValue >= winValue * 10 ||
+        curvedRightValue >= winValue * 10
     ) {
-        if (horizontalValue >= 50) {
+        if (horizontalValue >= winValue * 10) {
             game_over_animation(top, bottom, "horizontal");
-        } else if (verticalValue >= 50) {
+        } else if (verticalValue >= winValue * 10) {
             game_over_animation(left, right, "vertical");
-        } else if (curvedLeftValue >= 50) {
+        } else if (curvedLeftValue >= winValue * 10) {
             game_over_animation(topLeft, bottomRight, "curvedLeft");
-        } else if (curvedRightValue >= 50) {
+        } else if (curvedRightValue >= winValue * 10) {
             game_over_animation(topRight, bottomLeft, "curvedRight");
         }
 
         return true;
     } else return false;
-}
-
-//  //
-
-function calc_score(boardInfo) {
-    let white = 0;
-    let black = 0;
-
-    boardInfo.forEach((row) => {
-        row.forEach((place) => {
-            if (place == "white") {
-                white++;
-            } else if (place == "black") {
-                black++;
-            }
-        });
-    });
-
-    return { white, black };
 }
 
 //  //

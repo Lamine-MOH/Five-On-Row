@@ -260,7 +260,7 @@ body {
 }
 
 .five-on-row .left-mene ul {
-    margin: 30px auto;
+    margin: 10px auto;
     padding: 5px;
 
     width: 90%;
@@ -295,6 +295,134 @@ body {
 }
 .five-on-row .left-mene ul > li:active {
     transform: scale(0.9);
+}
+
+.five-on-row .left-mene .board-width {
+    margin: 0px auto;
+    padding: 20px;
+
+    width: 85%;
+    border: 2px solid #000;
+    border-radius: 10px;
+
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.five-on-row .left-mene .board-width::before {
+    content: "Board Size";
+    display: block;
+
+    padding: 5px;
+    background: #f79f1f;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.five-on-row .left-mene .board-width .left,
+.five-on-row .left-mene .board-width .right {
+    padding: 7px;
+
+    border: 1.5px solid #000;
+    border-radius: 20px;
+
+    font-size: 1.3rem;
+    font-weight: 900;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+.five-on-row .left-mene .board-width .left:active,
+.five-on-row .left-mene .board-width .right:active {
+    transform: scale(0.6);
+}
+
+.five-on-row .left-mene .board-width .value {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.five-on-row .left-mene .board-width .value.update {
+    animation: change-board-size 0.5s;
+}
+
+.five-on-row .left-mene .win-value {
+    margin: 20px auto;
+    padding: 20px;
+
+    width: 85%;
+    border: 2px solid #000;
+    border-radius: 10px;
+
+    position: relative;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.five-on-row .left-mene .win-value::before {
+    content: "Win Value";
+    display: block;
+
+    padding: 5px;
+    background: #f79f1f;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.five-on-row .left-mene .win-value .left,
+.five-on-row .left-mene .win-value .right {
+    padding: 7px;
+
+    border: 1.5px solid #000;
+    border-radius: 20px;
+
+    font-size: 1.3rem;
+    font-weight: 900;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+.five-on-row .left-mene .win-value .left:active,
+.five-on-row .left-mene .win-value .right:active {
+    transform: scale(0.6);
+}
+
+.five-on-row .left-mene .win-value .value {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3rem;
+    font-weight: 900;
+}
+
+.five-on-row .left-mene .win-value .value.update {
+    animation: change-board-size 0.5s;
+}
+
+@keyframes change-board-size {
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0);
+    }
 }
 
 /*  */
