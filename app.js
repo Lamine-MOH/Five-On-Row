@@ -159,7 +159,7 @@ function game_over(x, y) {
         topLeft = { x: i, y: j };
 
         if (boardInfo[i][j] != boardInfo[x][y]) {
-            topLeft = { x: i + 1, y: j - 1 };
+            topLeft = { x: i + 1, y: j + 1 };
             break;
         }
 
