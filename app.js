@@ -53,7 +53,10 @@ function reset_board(boardWidth, way = "build") {
     currentTurnContent.classList.remove("draw");
 
     boardPlaces.forEach((obj) => {
+        obj.classList.remove("white");
+        obj.classList.remove("black");
         obj.classList.remove("game-over");
+        obj.classList.remove("test");
     });
 }
 reset_board(boardWidth);
@@ -265,7 +268,7 @@ function add_stone(index) {
         currentTurnContent.classList.add("game-over");
     } else {
         if (bootTeam != "none") {
-            if (currentTurn != bootTeam) {
+            if (currentTurn == "white") {
                 currentTurnContent.classList.remove("boot");
                 currentTurnContent.classList.add("player");
             } else {
@@ -273,12 +276,12 @@ function add_stone(index) {
                 currentTurnContent.classList.add("boot");
             }
         } else {
-            if (currentTurn == "black") {
-                currentTurnContent.classList.remove("player-1");
-                currentTurnContent.classList.add("player-2");
-            } else {
+            if (currentTurn == "white") {
                 currentTurnContent.classList.remove("player-2");
                 currentTurnContent.classList.add("player-1");
+            } else {
+                currentTurnContent.classList.remove("player-1");
+                currentTurnContent.classList.add("player-2");
             }
         }
     }
