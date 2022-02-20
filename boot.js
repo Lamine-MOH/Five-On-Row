@@ -429,6 +429,12 @@ function get_best_places(recommendedPlaces) {
 }
 
 function play_boot() {
+    if (bootTeam == "test") {
+        boardPlaces.forEach((obj) => {
+            obj.classList.remove("test");
+        });
+    }
+
     if (recommendedPlaces.length == 0)
         return {
             x: Math.floor(Math.random() * boardWidth),
@@ -436,5 +442,12 @@ function play_boot() {
         };
 
     let places = get_best_places(recommendedPlaces);
-    return places[Math.floor(Math.random() * places.length)];
+
+    if (bootTeam == "test") {
+        places.forEach((obj) => {
+            boardPlaces[obj.x * boardWidth + obj.y].classList.add("test");
+        });
+    } else {
+        return places[Math.floor(Math.random() * places.length)];
+    }
 }

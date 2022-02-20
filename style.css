@@ -116,6 +116,21 @@ body {
     }
 }
 
+.game-board .place.test::after {
+    background: green;
+
+    animation: test-stone 1s linear infinite;
+}
+@keyframes test-stone {
+    0%,
+    100% {
+        transform: scale(1.2);
+    }
+    50% {
+        transform: scale(0.6);
+    }
+}
+
 /*  */
 
 .current-turn {
@@ -139,6 +154,15 @@ body {
     content: "Player 2 to play";
     color: var(--stone-color-2);
 }
+.current-turn.player::after {
+    content: "Player to play";
+    color: var(--stone-color-1);
+}
+.current-turn.boot::after {
+    content: "Boot to play";
+    color: var(--stone-color-2);
+}
+
 .current-turn.game-over::after {
     animation: game-over-content 0.5s linear infinite alternate;
 }

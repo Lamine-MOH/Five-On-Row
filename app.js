@@ -263,20 +263,26 @@ function add_stone(index) {
         restTurns = -5;
 
         currentTurnContent.classList.add("game-over");
+    } else {
         if (bootTeam != "none") {
             if (currentTurn != bootTeam) {
-                currentTurnContent.classList.add("boot");
-            } else {
+                currentTurnContent.classList.remove("boot");
                 currentTurnContent.classList.add("player");
+            } else {
+                currentTurnContent.classList.remove("player");
+                currentTurnContent.classList.add("boot");
             }
         } else {
             if (currentTurn == "black") {
-                currentTurnContent.classList.add("player-1");
-            } else {
+                currentTurnContent.classList.remove("player-1");
                 currentTurnContent.classList.add("player-2");
+            } else {
+                currentTurnContent.classList.remove("player-2");
+                currentTurnContent.classList.add("player-1");
             }
         }
     }
+
     //  //
 
     if (restTurns == 0) {
@@ -289,8 +295,12 @@ function add_stone(index) {
         update_recommended_places(x, y);
 
         if (currentTurn == bootTeam) {
-            let place = play_boot();
-            add_stone(place.x * boardWidth + place.y);
+            setTimeout(() => {
+                let place = play_boot();
+                add_stone(place.x * boardWidth + place.y);
+            }, 500);
+        } else if (bootTeam == "test") {
+            play_boot();
         }
     }
 }
