@@ -33,9 +33,6 @@ function reset_board(boardWidth, way = "build") {
         for (let i = 0; i < boardWidth; i++) {
             for (let j = 0; j < boardWidth; j++) {
                 boardInfo[i][j] = "empty";
-
-                boardPlaces[i * boardWidth + j].classList.remove("white");
-                boardPlaces[i * boardWidth + j].classList.remove("black");
             }
         }
     }
