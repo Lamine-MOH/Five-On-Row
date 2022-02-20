@@ -133,14 +133,14 @@ function game_over(x, y) {
         left = { x, y: i };
 
         if (boardInfo[x][i] != boardInfo[x][y]) {
-            left = { x, y: i };
+            left = { x, y: i + 1 };
             break;
         }
 
         verticalValue += 10;
     }
     for (let i = y + 1; i < boardWidth; i++) {
-        right = { x, y: i };
+        right = { x, y: i - 1 };
 
         if (boardInfo[x][i] != boardInfo[x][y]) {
             right = { x, y: i - 1 };
