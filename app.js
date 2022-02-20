@@ -242,12 +242,8 @@ function game_over(x, y) {
 //  //
 let bootTeam = "none";
 function add_stone(index) {
-    if (restTurns < 0) {
+    if (restTurns <= 0) {
         return;
-    }
-
-    if (restTurns == 0) {
-        currentTurnContent.classList.add("draw");
     }
 
     let x = Math.floor(index / boardWidth);
@@ -282,6 +278,11 @@ function add_stone(index) {
         }
     }
     //  //
+
+    if (restTurns == 0) {
+        currentTurnContent.classList.add("draw");
+        return;
+    }
 
     // boot turn //
     if (bootTeam != "none") {
