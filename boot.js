@@ -419,7 +419,7 @@ function get_best_places(recommendedPlaces) {
             if (result.total > topTotal) {
                 places = [element];
                 topTotal = result.total;
-            } else {
+            } else if (result.total == topTotal) {
                 places.push(element);
             }
         }
