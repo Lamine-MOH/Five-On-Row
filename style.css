@@ -1,6 +1,6 @@
 :root {
-    --stone-color-1: #aaa;
-    --stone-color-2: #333;
+    --stone-color-1: #bbb;
+    --stone-color-2: #222;
 
     --board-color-1: #a32c00;
     --board-color-2: #000;
@@ -534,6 +534,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 
     position: relative;
 }
@@ -568,7 +569,9 @@ body {
 .five-on-row .right-mene .background .color,
 .five-on-row .right-mene .board .color,
 .five-on-row .right-mene .stone .color {
-    width: 20%;
+    margin-bottom: 10px;
+
+    width: 21%;
     aspect-ratio: 1;
     border: 1px solid #000;
 
@@ -618,14 +621,38 @@ body {
 }
 
 .five-on-row .right-mene .stone .color:nth-child(1) {
-    background: linear-gradient(135deg, #fff 0% 50%, #000 50% 100%);
+    background: linear-gradient(135deg, #bbb 0% 50%, #222 50% 100%);
 }
 .five-on-row .right-mene .stone .color:nth-child(2) {
-    background: linear-gradient(135deg, #0984e3 0% 50%, #d63031 50% 100%);
+    background: linear-gradient(135deg, #222 0% 50%, #bbb 50% 100%);
 }
 .five-on-row .right-mene .stone .color:nth-child(3) {
-    background: linear-gradient(135deg, #6c5ce7 0% 50%, #e84393 50% 100%);
+    background: linear-gradient(135deg, #fff 0% 50%, #000 50% 100%);
 }
 .five-on-row .right-mene .stone .color:nth-child(4) {
+    background: linear-gradient(135deg, #000 0% 50%, #fff 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(5) {
+    background: linear-gradient(135deg, #0984e3 0% 50%, #d63031 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(6) {
+    background: linear-gradient(135deg, #d63031 0% 50%, #0984e3 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(7) {
+    background: linear-gradient(135deg, #6c5ce7 0% 50%, #e84393 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(8) {
+    background: linear-gradient(135deg, #e84393 0% 50%, #6c5ce7 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(9) {
     background: linear-gradient(135deg, #44bd32 0% 50%, #fbc531 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(10) {
+    background: linear-gradient(135deg, #fbc531 0% 50%, #44bd32 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(11) {
+    background: linear-gradient(135deg, #882400 0% 50%, #808080 50% 100%);
+}
+.five-on-row .right-mene .stone .color:nth-child(12) {
+    background: linear-gradient(135deg, #808080 0% 50%, #882400 50% 100%);
 }
