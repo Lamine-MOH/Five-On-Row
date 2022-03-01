@@ -428,6 +428,41 @@ function get_best_places(recommendedPlaces) {
     return places;
 }
 
+function get_place_opposite_value(place, list) {
+    let opposite = 0;
+
+    list.forEach((ele) => {
+        if (
+            !(ele.x == place.x && ele.y == place.y) &&
+            (ele.x == place.x ||
+                ele.y == place.y ||
+                absolute(ele.x - place.x) == absolute(ele.y - place.y))
+        )
+            opposite++;
+    });
+
+    return opposite;
+}
+
+function get_opposite_places(places) {
+    let topOpposite = 0;
+    let oppositePlaces = [];
+
+    places.forEach((element) => {
+        let opposite = get_place_opposite_value(element, places);
+
+        if (opposite > topOpposite) {
+            topOpposite = opposite;
+
+            oppositePlaces = [element];
+        } else if (opposite == topOpposite) {
+            oppositePlaces.push(element);
+        }
+    });
+
+    return oppositePlaces;
+}
+
 function play_boot() {
     if (bootTeam == "test") {
         boardPlaces.forEach((obj) => {
@@ -442,6 +477,8 @@ function play_boot() {
         };
 
     let places = get_best_places(recommendedPlaces);
+
+    places = get_opposite_places(places);
 
     if (bootTeam == "test") {
         places.forEach((obj) => {
