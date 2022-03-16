@@ -428,15 +428,92 @@ function get_best_places(recommendedPlaces) {
     return places;
 }
 
+function is_connect(first, second, direction) {
+    if (direction == "vertical") {
+        let start = first.x < second.x ? first.x + 2 : second.x + 2;
+        let end = first.x > second.x ? first.x - 1 : second.x - 1;
+
+        if (start > boardWidth) return true;
+        
+        let type = boardInfo[start - 1][first.y];
+        if (type == "empty") return false;
+
+        for (let i = start; i <= end; i++)
+            if (boardInfo[i][first.y] != type) return false;
+    } else if (direction == "horizontal") {
+        let start = first.y < second.y ? first.y + 2 : second.y + 2;
+        let end = first.y > second.y ? first.y - 1 : second.y - 1;
+
+        if (start > boardWidth) return true;
+        
+        let type = boardInfo[start - 1][first.y];
+        if (type == "empty") return false;
+
+        for (let i = start; i <= end; i++)
+            if (boardInfo[first.x][i] != type) return false;
+    } else if (direction == "convert left") {
+        let start =
+            first.x < second.x
+                ? { x: first.x + 2, y: first.y + 2 }
+                : { x: second.x + 2, y: second.y + 2 };
+        let end =
+            first.x > second.x
+                ? { x: first.x - 1, y: first.y - 1 }
+                : { x: second.x - 1, y: second.y - 1 };
+
+        if (start.x > boardWidth || start.y > boardWidth) return true;
+        
+        let type = boardInfo[start.x - 1][start.y - 1];
+        if (type == "empty") return false;
+
+        let i = start.x;
+        let j = start.y;
+        while (i <= end.x && j <= end.y) {
+            if (boardInfo[i][j] != type) return false;
+
+            i++;
+            j++;
+        }
+    } else if (direction == "convert right") {
+        let start =
+            first.x < second.x
+                ? { x: first.x + 2, y: first.y - 2 }
+                : { x: second.x + 2, y: second.y - 2 };
+        let end =
+            first.x > second.x
+                ? { x: first.x - 2, y: first.y + 2 }
+                : { x: second.x - 2, y: second.y + 2 };
+
+        if (start.x > boardWidth || start.y < 0) return true;
+        
+        let type = boardInfo[start.x - 1][start.y + 1];
+        if (type == "empty") return false;
+
+        let i = start.x;
+        let j = start.y;
+        while (i <= end.x && j >= end.y) {
+            if (boardInfo[i][j] != type) return false;
+
+            i++;
+            j--;
+        }
+    }
+
+    return true;
+}
+
 function get_place_opposite_value(place, list) {
     let opposite = 0;
 
     list.forEach((ele) => {
         if (
             !(ele.x == place.x && ele.y == place.y) &&
-            (ele.x == place.x ||
-                ele.y == place.y ||
-                absolute(ele.x - place.x) == absolute(ele.y - place.y))
+            (
+                (ele.x == place.x && is_connect(ele, place, "horizontal")) ||
+                (ele.y == place.y && is_connect(ele, place, "vertical")) ||
+                ((ele.x - place.x) == (ele.y - place.y) && is_connect(ele, place, "convert left")) ||
+                ((ele.x - place.x) == -1 * (ele.y - place.y) && is_connect(ele, place, "convert right"))
+            )
         )
             opposite++;
     });
@@ -445,17 +522,17 @@ function get_place_opposite_value(place, list) {
 }
 
 function get_opposite_places(places) {
-    let topOpposite = 0;
+    let topValue = 0;
     let oppositePlaces = [];
 
     places.forEach((element) => {
-        let opposite = get_place_opposite_value(element, places);
+        let value = get_place_opposite_value(element, places);
 
-        if (opposite > topOpposite) {
-            topOpposite = opposite;
+        if (value > topValue) {
+            topValue = value;
 
             oppositePlaces = [element];
-        } else if (opposite == topOpposite) {
+        } else if (value == topValue) {
             oppositePlaces.push(element);
         }
     });
