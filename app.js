@@ -294,7 +294,12 @@ function add_stone(index) {
     if (bootTeam != "none") {
         update_recommended_places(x, y);
 
-        if (currentTurn == bootTeam) {
+        if (bootTeam == "booting") {
+            setTimeout(() => {
+                let place = play_boot();
+                add_stone(place.x * boardWidth + place.y);
+            }, 600);
+        } else if (currentTurn == bootTeam) {
             setTimeout(() => {
                 let place = play_boot();
                 add_stone(place.x * boardWidth + place.y);
